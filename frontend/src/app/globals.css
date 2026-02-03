@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* =========================
+   DESIGN TOKENS (ROOT)
+   ========================= */
+:root {
+  /* Base canvas */
+  --background: #020617;        /* slate-950 */
+  --foreground: #e5e7eb;        /* slate-200 */
+
+  /* Accent palette */
+  --accent-primary: #6366f1;    /* indigo-500 */
+  --accent-secondary: #a855f7;  /* purple-500 */
+  --accent-success: #10b981;    /* emerald-500 */
+  --accent-warning: #f59e0b;    /* amber-500 */
+  --accent-danger: #ef4444;     /* red-500 */
+
+  /* Surfaces */
+  --surface-1: #020617;         /* main bg */
+  --surface-2: #020617cc;       /* glass */
+  --surface-3: #02061799;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* =========================
+   TAILWIND THEME BRIDGE
+   ========================= */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--accent-primary);
+  --color-secondary: var(--accent-secondary);
+  --color-success: var(--accent-success);
+  --color-warning: var(--accent-warning);
+  --color-danger: var(--accent-danger);
+
+  --font-sans: var(--font-sans);
+}
+
+/* =========================
+   DARK MODE (SYSTEM)
+   ========================= */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #020617;
+    --foreground: #e5e7eb;
+  }
+}
+
+/* =========================
+   GLOBAL BASE STYLES
+   ========================= */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(
+    180deg,
+    #020617 0%,
+    #020617 60%,
+    #030712 100%
+  );
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* =========================
+   POLISH & UX ENHANCEMENTS
+   ========================= */
+
+/* Smooth fonts */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Buttons feel clickable */
+button {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+}
+button:active {
+  transform: translateY(0);
+}
+
+/* Scrollbar (subtle, premium) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155; /* slate-700 */
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; /* slate-600 */
+}
