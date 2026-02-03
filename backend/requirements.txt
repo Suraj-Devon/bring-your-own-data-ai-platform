@@ -1,9 +1,7 @@
-fastapi==0.110.0
-uvicorn[standard]==0.29.0
-pandas==2.2.1
-numpy==1.26.4
-python-multipart==0.0.9
-pydantic==2.6.4
-
-# 🔒 Required for CORS in FastAPI
-starlette==0.36.3
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pandas>=2.2.3
+numpy>=2.1.0
+python-multipart>=0.0.12
+pydantic>=2.9.0
+starlette>=0.40.0
