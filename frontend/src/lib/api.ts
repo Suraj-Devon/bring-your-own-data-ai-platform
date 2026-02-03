@@ -12,27 +12,31 @@ export type IngestionResponse = {
   next_steps: NextStep[];
 };
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE ??
+// Use the variable name exactly as it appears in your Vercel dashboard
+const API_BASE = 
+  process.env.NEXT_PUBLIC_API_URL || 
   "http://127.0.0.1:8000";
 
-export async function uploadFile(
-  file: File
-): Promise<IngestionResponse> {
+export async function uploadFile(file: File): Promise<IngestionResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch(
-    `${API_BASE}/api/ingest/csv`,
-    {
+  try {
+    const res = await fetch(`${API_BASE}/api/ingest/csv`, {
       method: "POST",
       body: formData,
+      // NOTE: Do not set 'Content-Type' manually for FormData. 
+      // The browser needs to set the boundary automatically.
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Upload failed (${res.status}): ${errorText}`);
     }
-  );
 
-  if (!res.ok) {
-    throw new Error("Upload failed");
+    return await res.json();
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
   }
-
-  return res.json();
 }
