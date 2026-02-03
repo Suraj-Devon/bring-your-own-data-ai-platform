@@ -15,7 +15,9 @@ def _try_parse_datetime(series: pd.Series) -> Optional[pd.Series]:
     parsed = pd.to_datetime(
         series,
         errors="coerce",
-        infer_datetime_format=True,
+        # NOTE:
+        # infer_datetime_format was removed in pandas >= 2.0
+        # Modern pandas infers formats automatically (same behavior)
     )
     success_ratio = parsed.notna().mean()
     if success_ratio >= DATE_PARSE_THRESHOLD:
@@ -39,7 +41,7 @@ def detect_time_series(
     result = {
         "date_column": None,
         "frequency": None,
-        "series": [],      # 🔥 NEW: numeric evidence for charts
+        "series": [],      # 🔥 numeric evidence for charts
         "signals": [],
     }
 
@@ -103,7 +105,7 @@ def detect_time_series(
     if len(counts) < 3:
         return result  # Not enough data for trend analysis
 
-    # 🔥 NEW: Persist numeric series for charts
+    # 🔥 Persist numeric series for charts
     result["series"] = [
         {"period": period, "count": int(count)}
         for period, count in counts.items()
@@ -126,7 +128,7 @@ def detect_time_series(
                 "message": f"Sudden drop detected in period {period}.",
                 "evidence": [f"change = {change:.0%}"],
                 "impact": "Business activity may have declined sharply.",
-                "period": period,   # 🔥 precise anchor for annotations
+                "period": period,
             })
 
         elif change >= DROP_SPIKE_THRESHOLD:
@@ -159,7 +161,7 @@ def detect_time_series(
             "message": "Missing time periods detected in the data.",
             "evidence": [f"missing_count = {len(missing_periods)}"],
             "impact": "Trends may be misleading due to data gaps.",
-            "missing_periods": sorted(list(missing_periods))[:10],  # cap for safety
+            "missing_periods": sorted(list(missing_periods))[:10],
         })
 
     return result
