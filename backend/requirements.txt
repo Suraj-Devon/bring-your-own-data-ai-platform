@@ -4,3 +4,6 @@ pandas==2.2.1
 numpy==1.26.4
 python-multipart==0.0.9
 pydantic==2.6.4
+
+# 🔒 Required for CORS in FastAPI
+starlette==0.36.3
